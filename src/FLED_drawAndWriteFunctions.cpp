@@ -163,23 +163,22 @@ void FLED::drawFSA_ArcContours()
 	cv::imwrite("Output Data/FSA_ArcContours.png", Img_T);
 }
 
-
 void FLED::drawEllipses()
 {
 	cv::RotatedRect temp;
 	Mat Img_T = Mat::zeros(iROWS, iCOLS, CV_8UC3);
 
-	for (int i = 0; i < detEllipses.size(); i++)
+	for (auto & detEllipse : detEllipses)
 	{
-		temp.center.x = detEllipses[i].center.y;
-		temp.center.y = detEllipses[i].center.x;
-		temp.size.height = detEllipses[i].size.width;
-		temp.size.width = detEllipses[i].size.height;
-		temp.angle = -detEllipses[i].angle;
+		temp.center.x = detEllipse.center.y;
+		temp.center.y = detEllipse.center.x;
+		temp.size.height = detEllipse.size.width;
+		temp.size.width = detEllipse.size.height;
+		temp.angle = -detEllipse.angle;
 		ellipse(Img_T, temp, cv::Scalar(0, 0, 255), 2);
 	}
 	cv::imshow("Ellipses", Img_T);
-	cout << "The number of ellipses£º" << detEllipses.size() << endl;
+	cout << "The number of ellipsesï¿½ï¿½" << detEllipses.size() << endl;
 }
 void FLED::drawFLED(Mat ImgC, double ust_time)
 {
@@ -213,7 +212,7 @@ void FLED::drawFLED(Mat ImgC, double ust_time)
 
 
 }
-void FLED::drawFLED(Mat ImgG,string savepath)
+void FLED::drawFLED(Mat ImgG, string savepath, bool showImage=true)
 {
 	char arcnum[128];
 	Mat Img_T = ImgG.clone();
@@ -243,20 +242,20 @@ void FLED::drawFLED(Mat ImgG,string savepath)
 		cv::putText(Img_T, string(arcnum), temp.center, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
 		cout << "The " << i << "th ellipse's score is :" << detEllipseScore[i] << endl;
 	}
-	cv::imshow("Ellipses", Img_T);
+    if(showImage)
+	    cv::imshow("Ellipses", Img_T);
 	if(savepath.length() > 0)
 		imwrite(savepath, Img_T);
 }
 
-void FLED::writeFLED(string filepath, string filename, double useTime)
+void FLED::writeFLED(const string& filepath, const string& filename)
 {
 	std::ofstream outfile(filepath + filename, std::ios::out);
-	outfile << useTime << endl;
-	for (int i = 0; i < detEllipses.size(); i++)
+	for (auto & detEllipse : detEllipses)
 	{
 		outfile << "1" << " ";
-		outfile << detEllipses[i].center.x << " " << detEllipses[i].center.y << " ";
-		outfile << detEllipses[i].size.height << " " << detEllipses[i].size.width << " " << detEllipses[i].angle << endl;
+		outfile << detEllipse.center.x << " " << detEllipse.center.y << " ";
+		outfile << detEllipse.size.height << " " << detEllipse.size.width << " " << detEllipse.angle << endl;
 	}
 	outfile.close();
 }

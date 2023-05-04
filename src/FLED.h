@@ -61,8 +61,8 @@ public:// Draw Data and Write Information Functions
 	void drawFSA_ArcContours();
 	void drawEllipses();
 	void drawFLED(Mat ImgC, double use_time = -1);
-	void drawFLED(Mat ImgG, string savepath);
-	void writeFLED(string filepath, string filename, double useTime);
+    void drawFLED(Mat ImgG, string savepath, bool showImage);
+	void writeFLED(const string& filepath, const string& filename);
 	void showDetailBreakdown(cv::Vec<double, 10> &detDetailTime, int needDisplay = 1);
 	void showDatasetBreakdown();
 	void writeDetailData();
@@ -531,7 +531,6 @@ protected:
 	double ds_t_preprocess, ds_t_arcsegment, ds_t_cluster, ds_t_allgrouping, ds_t_allfitting, ds_t_allvalidation, dt_time;
 	int ds_fitting_time, ds_valitation_time, ds_num;
 #endif
-
 };
 
 typedef FLED AAMED;
