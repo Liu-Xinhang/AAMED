@@ -254,8 +254,8 @@ void FLED::writeFLED(const string& filepath, const string& filename)
 	for (auto & detEllipse : detEllipses)
 	{
 		outfile << "1" << " ";
-		outfile << detEllipse.center.x << " " << detEllipse.center.y << " ";
-		outfile << detEllipse.size.height << " " << detEllipse.size.width << " " << detEllipse.angle << endl;
+		outfile << "x: " << detEllipse.center.y << " y: " << detEllipse.center.x << " ";
+		outfile << "width: " << detEllipse.size.height << " height:  " << detEllipse.size.width << " angle: " << -detEllipse.angle << endl;
 	}
 	outfile.close();
 }
